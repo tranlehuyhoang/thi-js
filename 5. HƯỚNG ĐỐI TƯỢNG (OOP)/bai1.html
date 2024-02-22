@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Lớp đối tượng HocSinh
+        class HocSinh {
+            constructor(hoTen, ngaySinh, lop, diem) {
+                this.hoTen = hoTen;
+                this.ngaySinh = ngaySinh;
+                this.lop = lop;
+                this.diem = diem;
+            }
+
+            tinhTuoi() {
+                const today = new Date();
+                const birthDate = new Date(this.ngaySinh);
+
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                return Math.floor(age);
+            }
+
+            xepLoai() {
+                if (this.diem >= 0 && this.diem < 3) {
+                    return 'Yếu';
+                } else if (this.diem >= 3 && this.diem < 6) {
+                    return 'Trung bình';
+                } else if (this.diem >= 6 && this.diem <= 8) {
+                    return 'Khá';
+                } else if (this.diem > 8 && this.diem <= 10) {
+                    return 'Giỏi';
+                } else {
+                    return 'Không xác định';
+                }
+            }
+        }
+
+        // Lớp đối tượng SinhVien kế thừa từ HocSinh
+        class SinhVien extends HocSinh {
+            constructor(hoTen, ngaySinh, lop, diem) {
+                super(hoTen, ngaySinh, lop, diem);
+            }
+
+            thiBaoVe(monThi) {
+                if (this.diem >= 5) {
+                    console.log(`Sinh viên ${this.hoTen}, lớp ${this.lop} đủ điều kiện dự thi ${monThi}`);
+                } else {
+                    console.log(`Sinh viên ${this.hoTen}, lớp ${this.lop} bị cấm thi môn ${monThi} do điểm quá trình dưới 5`);
+                }
+            }
+        }
+
+        // Lớp đối tượng NhanVien
+        class NhanVien {
+            constructor(hoTen, ngayNhanViec, heSoLuong) {
+                this.hoTen = hoTen;
+                this.ngayNhanViec = ngayNhanViec;
+                this.heSoLuong = heSoLuong;
+            }
+
+            tinhLuong(luongCoBan, soNgayLamViec) {
+                return (luongCoBan * this.heSoLuong * soNgayLamViec) / 26;
+            }
+
+            tinhThuongTet(luongCoBan, soThangLamViec) {
+                return (luongCoBan * 26 * soThangLamViec) / 12;
+            }
+        }
+
+        // Lớp đối tượng CanBo kế thừa từ NhanVien
+        class CanBo extends NhanVien {
+            constructor(hoTen, ngayNhanViec, heSoLuong, phuCapChucVu) {
+                super(hoTen, ngayNhanViec, heSoLuong);
+                this.phuCapChucVu = phuCapChucVu;
+            }
+
+            tinhLuong(luongCoBan, soNgayLamViec) {
+                return (luongCoBan * (this.heSoLuong + this.phuCapChucVu) * soNgayLamViec) / 26;
+            }
+        }
+
+        // Lớp đối tượng SanPham
+        class SanPham {
+            constructor(tenSanPham, giaBan, hanSuDung) {
+                this.tenSanPham = tenSanPham;
+                this.giaBan = giaBan;
+                this.hanSuDung = hanSuDung;
+            }
+
+            kiemTraHSD() {
+                const currentDate = new Date();
+                const expirationDate = new Date(this.hanSuDung);
+
+                return currentDate <= expirationDate;
+            }
+
+            tieuHuy() {
+                console.log(`Sản phẩm ${this.tenSanPham} đã bị tiêu hủy vì quá hạn sử dụng ${this.hanSuDung} ngày`);
+            }
+
+            static huy() {
+                console.log('Đã tiêu hủy thành công!');
+            }
+        }
+
+        // Tạo mới các đối tượng để minh họa
+
+        const hocSinh = new HocSinh('Nguyễn Văn A', '01/01/2000', '10A', 7);
+        console.log(hocSinh.tinhTuoi()); // Kết quả: 24
+        console.log(hocSinh.xepLoai()); // Kết quả: 'Khá'
+
+        const sinhVien = new SinhVien('Nguyễn Thị B', '02/02/2001', '11B', 4);
+        sinhVien.thiBaoVe('Toán');
+        // Kết quả: 'Sinh viên Nguyễn Thị B, lớp 11B đủ điều kiện dự thi Toán'
+
+        const nhanVien = new NhanVien('Trần Văn C', '01/01/2010', 1.5);
+        console.log(nhanVien.tinhLuong(1000000, 20)); // Kết quả: 115384.61538461538
+        console.log(nhanVien.tinhThuongTet(1000000, 12)); // Kết quả: 6500000
+
+        const canBo = new CanBo('Lê Thị D', '01/01/2015', 2.0, 0.5);
+        console.log(canBo.tinhLuong(1000000, 20)); // Kết quả: 153846.15384615384
+        console.log(canBo.tinhThuongTet(1000000, 12)); // Kết quả: 6500000
+
+        const sanPham = new SanPham('Bút bi', 5000, '01/01/2023');
+        console.log(sanPham.kiemTraHSD()); // Kết quả: true
+        sanPham.tieuHuy(); // Kết quả: 'Sản phẩm Bút bi đã bị tiêu hủy vì quá hạn sử dụng 01/01/2023 ngày'
+        SanPham.huy(); // Kết quả: 'Đã tiêu hủy thành công!'
+    </script>
+</body>
+
+</html>

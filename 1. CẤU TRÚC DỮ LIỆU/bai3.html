@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Đăng Nhập</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Đăng Nhập</h2>
+    <form id="loginForm" onsubmit="validateForm(event)">
+        <label for="username">Tên đăng nhập:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Mật khẩu:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Đăng Nhập">
+    </form>
+    <p id="error" class="error"></p>
+</body>
+<script>
+    function validateForm(event) {
+        event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        var usernameRegex = /^PS\d{5}$/; // Biểu thức chính quy kiểm tra tên đăng nhập
+        var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{7,}$/; // Biểu thức chính quy kiểm tra mật khẩu
+
+        var errorElement = document.getElementById('error');
+        errorElement.innerHTML = '';
+
+        if (!usernameRegex.test(username)) {
+            errorElement.innerHTML = 'Tên đăng nhập không hợp lệ. Vui lòng kiểm tra lại.';
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            errorElement.innerHTML = 'Mật khẩu không hợp lệ. Vui lòng kiểm tra lại.';
+            return;
+        }
+
+        // Đăng nhập thành công
+        alert('Đăng nhập thành công!');
+        // Có thể thêm mã xử lý tiếp theo tại đây, chẳng hạn chuyển hướng người dùng đến trang khác.
+    }
+</script>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.1. Viết lại hàm sortArray theo dạng arrow function:
+
+        const sortArray1 = (arr) => {
+            return arr.sort((a, b) => a - b);
+        };
+        // 1.2. Viết lại đối số của hàm sort theo dạng anonymous function:
+
+        const sortArray2 = function (arr) {
+            return arr.sort(function (a, b) {
+                return a - b;
+            });
+        };
+        // 1.3. Nhập mảng sử dụng hàm callback để hiển thị mảng được sắp xếp tăng dần:
+
+        const sortArray = (arr, callback) => {
+            const sortedArray = arr.sort((a, b) => a - b);
+            callback(sortedArray);
+        };
+
+        // Hàm callback để hiển thị mảng
+        const displaySortedArray = (sortedArray) => {
+            console.log(sortedArray);
+        };
+
+        // Sử dụng hàm sortArray và callback để hiển thị mảng được sắp xếp
+        const array = [3, 1, 4, 2, 5];
+        sortArray(array, displaySortedArray);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.1. Xóa phần tử "-" khỏi mảng và thêm vào " " thay thế
+        let arr = ["a", "b", "-", "c", "d", "object"];
+        arr = arr.map(item => item === "-" ? " " : item);
+        console.log(arr); // ["a", "b", " ", "c", "d"]
+
+        // 1.2. In ra màn hình chuỗi in hoa đảo ngược của mảng
+        let reversedArr = arr.map(item => item.toUpperCase()).reverse();
+        console.log(reversedArr); // ["D", "C", " ", "B", "A"]
+
+        // 1.3. Tìm và thay thế chuỗi "object" thành chuỗi "strings"
+        arr = arr.map(item => item === "object" ? "strings" : item);
+        console.log(arr); // ["a", "b", " ", "c", "d"]
+
+        // 1.4. Tạo chuỗi "data structures" sử dụng concat nối 2 chuỗi
+        let str1 = "data";
+        let str2 = "structures";
+        let combinedStr = str1.concat(" ", str2);
+        console.log(combinedStr); // "data structures"
+
+        // 1.5. Cắt và in ra màn hình "structures" từ chuỗi được nối ở trên
+        let extractedStr = combinedStr.slice(5);
+        console.log(extractedStr); // "structures"
+    </script>
+</body>
+
+</html>

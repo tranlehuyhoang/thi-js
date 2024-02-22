@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Danh sách địa giới hành chính Việt Nam</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách địa giới hành chính Việt Nam</h1>
+    <h2>
+        Tỉnh/Thành phố:
+
+    </h2>
+    <select name="tinhList" id="tinhList" onchange="loadHuyen()">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select>
+
+    <h2>Quận/Huyện:</h2>
+    <select name="huyenList" id="huyenList" onchange="loadPhuongXa()">
+
+    </select>
+
+    <h2>Phường/Xã:</h2>
+    <select name="phuongXaList" id="phuongXaList">
+
+
+
+        <script>
+            // Hàm gửi yêu cầu và nhận dữ liệu từ API
+            function fetchData(url) {
+                return fetch(url)
+                    .then(response => response.json())
+                    .catch(error => console.log(error));
+            }
+
+            // Hàm hiển thị danh sách các tỉnh/thành phố
+            function loadTinh() {
+                const url = 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json';
+
+                fetchData(url)
+                    .then(data => {
+                        const tinhListElement = document.getElementById('tinhList');
+                        tinhListElement.innerHTML = '';
+                        console.log('tỉnh/ thành phố :', data)
+                        data.forEach(tinh => {
+                            const listItem = document.createElement('option');
+                            listItem.value = tinh.Id;
+                            listItem.innerText = tinh.Name;
+
+                            tinhListElement.appendChild(listItem);
+                        });
+                    });
+            }
+
+            // Hàm hiển thị danh sách các quận/huyện của tỉnh/thành phố
+            function loadHuyen() {
+                var selectElement = document.getElementById("tinhList");
+
+                // Lấy giá trị được chọn
+                var selectedValue = selectElement.value;
+                const url = 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json';
+
+                fetchData(url)
+                    .then(data => {
+
+                        const huyen = data.find(item => item.Id === selectedValue);
+                        console.log('quận / huyện :', huyen)
+
+                        if (huyen && huyen.Districts) {
+                            const huyenListElement = document.getElementById('huyenList');
+                            huyenListElement.innerHTML = '';
+
+                            huyen.Districts.forEach(huyen => {
+                                const listItem = document.createElement('option');
+                                listItem.value = huyen.Id;
+                                listItem.innerText = huyen.Name;
+
+                                huyenListElement.appendChild(listItem);
+                            });
+                        }
+                    });
+            }
+
+            // Hàm hiển thị danh sách các phường/xã của quận/huyện
+            function loadPhuongXa(loai = 'Phường') {
+                var selectElement = document.getElementById("huyenList");
+
+                // Lấy giá trị được chọn
+                var selectedValue = selectElement.value;
+                const url = 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json';
+
+                fetchData(url)
+                    .then(data => {
+                        let phuongXaList = [];
+
+                        data.forEach(tinh => {
+                            const huyen = tinh.Districts.find(item => item.Id === selectedValue);
+                            if (huyen && huyen.Wards) {
+                                // const phuongXa = huyen.Wards.filter(item => item.Level === loai);
+                                phuongXaList = huyen.Wards
+                            }
+                        });
+                        console.log('Phường Xã :', phuongXaList)
+
+                        const phuongXaListElement = document.getElementById('phuongXaList');
+                        phuongXaListElement.innerHTML = '';
+
+                        phuongXaList.forEach(phuongXa => {
+                            const listItem = document.createElement('option');
+                            listItem.value = phuongXa.Id;
+                            listItem.innerText = phuongXa.Name;
+
+                            phuongXaListElement.appendChild(listItem);
+                        });
+                    });
+            }
+
+            // Gọi hàm loadTinh để hiển thị danh sách tỉnh/thành phố ban đầu
+            loadTinh();
+        </script>
+</body>
+
+</html>

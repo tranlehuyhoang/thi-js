@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        span {
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="product-list"></ul>
+
+    <script>
+        // Hàm lấy danh sách tất cả các danh mục từ link (A)
+        function getCategories() {
+            return fetch('https://fakestoreapi.com/products/categories')
+                .then(response => response.json());
+        }
+
+        // Hàm lấy danh sách sản phẩm từ một danh mục cụ thể từ link (B)
+        function getProductsByCategory(category) {
+            return fetch(`https://fakestoreapi.com/products/category/${category}`)
+                .then(response => response.json());
+        }
+
+        // Hàm lấy thông tin sản phẩm từ một mã sản phẩm cụ thể từ link (C)
+        function getProductById(productId) {
+            return fetch(`https://fakestoreapi.com/products/${productId}`)
+                .then(response => response.json());
+        }
+
+        // Hàm xóa sản phẩm và hiển thị thông báo
+        function deleteProduct(productId) {
+            return fetch(`https://fakestoreapi.com/products/${productId}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    alert('Xóa thành công!');
+                });
+        }
+
+        // Hàm chính để lấy 2 danh mục ngẫu nhiên và hiển thị danh sách sản phẩm
+        async function fetchAndDisplayProducts() {
+            try {
+                // Lấy danh sách tất cả các danh mục
+                const categories = await getCategories();
+                console.log('categories', categories)
+
+                // Lấy 2 danh mục ngẫu nhiên
+                const randomCategories = getRandomCategories(categories, 2);
+                console.log('randomCategories', randomCategories)
+
+                // Lấy danh sách sản phẩm từ 2 danh mục vừa chọn
+                const products = await getProductsFromCategories(randomCategories);
+                console.log('products', products)
+
+                // Hiển thị danh sách sản phẩm
+                displayProducts(products);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Hàm lấy danh sách sản phẩm từ các danh mục
+        async function getProductsFromCategories(categories) {
+            const productPromises = categories.map(category => getProductsByCategory(category));
+            const productsArray = await Promise.all(productPromises);
+            return productsArray.flat();
+        }
+
+        // Hàm hiển thị danh sách sản phẩm
+        function displayProducts(products) {
+            const productListElement = document.getElementById('product-list');
+            productListElement.innerHTML = '';
+
+            products.forEach(product => {
+                const productItem = document.createElement('li');
+                productItem.innerHTML = `
+          <span>${product.title} - ${product.price}</span>
+          <button onclick="deleteProduct(${product.id})">Xóa</button>
+        `;
+                productListElement.appendChild(productItem);
+            });
+        }
+
+        // Hàm lấy ngẫu nhiên n phần tử từ một mảng
+        function getRandomCategories(categories, n) {
+            const shuffled = categories.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        }
+
+        // Gọi hàm chính để thực hiện bài tập
+        fetchAndDisplayProducts();
+    </script>
+
+</body>
+
+</html>

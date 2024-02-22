@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Để tạo mảng A = [1, 3, 5, 7, 9, ..., n] mà không sử dụng vòng lặp, bạn có thể sử dụng phương pháp đệ quy như sau:
+
+        const createArrayA = (n, currentNumber = 1, array = []) => {
+            if (currentNumber > n) {
+                return array;
+            }
+            return createArrayA(n, currentNumber + 2, [...array, currentNumber]);
+        };
+
+        // Sử dụng hàm createArrayA để tạo mảng A với n nhập từ người dùng
+        const n = parseInt(prompt("Nhập giá trị n: "));
+        const arrayA = createArrayA(n);
+        console.log("Mảng A:", arrayA);
+
+        // Mảng B được tạo bằng cách gấp đôi giá trị mỗi phần tử của mảng A:
+        const arrayB = arrayA.map((number) => number * 2);
+        console.log("Mảng B:", arrayB);
+
+        // Mảng C được tạo bằng cách sắp xếp mảng B theo thứ tự bảng chữ cái từ Z-A:
+        const arrayC = arrayB.sort((a, b) => b.toString().localeCompare(a.toString()));
+        console.log("Mảng C:", arrayC);
+
+        // Mảng D được tạo bằng cách lấy từ mảng A các phần tử chia hết cho 7:
+        const arrayD = arrayA.filter((number) => number % 7 === 0);
+        console.log("Mảng D:", arrayD);
+
+        // Mảng E được tạo bằng cách ghép mảng A vào cuối mảng B:
+        const arrayE = arrayA.map((number) => number * 2).concat(arrayA);
+        console.log("Mảng E:", arrayE);
+
+        // Để kiểm tra xem mảng E có chứa một số chia hết cho 5 và lớn hơn 50 hay không:
+        const hasNumberGreaterThan50AndDivisibleBy5 = arrayE.some((number) => number > 50 && number % 5 === 0);
+        console.log("Mảng E có chứa số chia hết cho 5 và lớn hơn 50:", hasNumberGreaterThan50AndDivisibleBy5);
+    </script>
+</body>
+
+</html>

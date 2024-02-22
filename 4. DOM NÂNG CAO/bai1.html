@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trò chơi bốc số</title>
+    <style>
+        .selected {
+            background-color: gray;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Trò chơi bốc số</h1>
+
+    <button id="boc-so">Bốc số</button>
+    <button id="lich-su">Lịch sử</button>
+
+    <div>
+        <label for="do-so">Nhập các số:</label>
+        <input type="text" id="do-so" placeholder="Nhập các số cách nhau bằng dấu cách">
+        <button id="kiem-tra">Kiểm tra</button>
+    </div>
+
+    <button id="choi-lai">Chơi lại</button>
+
+    <script>
+        // Mảng lưu các số đã bốc
+        var mangSo = [];
+
+        // Cập nhật hiển thị lịch sử
+        function capNhatLichSu() {
+            var lichSuElement = document.getElementById("lich-su");
+            lichSuElement.innerHTML = "";
+
+            for (var i = 0; i < mangSo.length; i++) {
+                var so = mangSo[i];
+                var button = document.createElement("button");
+                button.innerHTML = so;
+                button.disabled = true;
+                if (i === mangSo.length - 1) {
+                    button.classList.add("selected");
+                }
+                lichSuElement.appendChild(button);
+            }
+        }
+
+        // Bốc số ngẫu nhiên
+        function bocSo() {
+            var soMoi;
+            do {
+                soMoi = Math.floor(Math.random() * 90) + 1;
+            } while (mangSo.includes(soMoi));
+
+            mangSo.push(soMoi);
+            console.log("Số bốc: " + soMoi);
+            capNhatLichSu();
+        }
+
+        // Kiểm tra số nhập vào
+        function kiemTraSo() {
+            var inputElement = document.getElementById("do-so");
+            var soNhap = inputElement.value.trim();
+
+            if (soNhap === "") {
+                alert("Vui lòng nhập số.");
+                return;
+            }
+
+            var soArray = soNhap.split(" ");
+            var trungSo = 0;
+
+            for (var i = 0; i < soArray.length; i++) {
+                var so = parseInt(soArray[i]);
+
+                if (mangSo.includes(so)) {
+                    trungSo++;
+                    var button = document.createElement("button");
+                    button.innerHTML = so;
+                    button.disabled = true;
+                    button.classList.add("selected");
+                    document.body.appendChild(button);
+                }
+            }
+
+            alert("Trùng " + trungSo + " số.");
+        }
+
+        // Đặt lại trò chơi
+        function choiLai() {
+            mangSo = [];
+            var selectedButtons = document.getElementsByClassName("selected");
+            while (selectedButtons.length > 0) {
+                selectedButtons[0].classList.remove("selected");
+            }
+        }
+
+        // Xác nhận khi tải lại trang
+        window.onbeforeunload = function () {
+            if (mangSo.length > 0) {
+                return "Trò chơi đang diễn ra! Bạn có chắc muốn tải lại trang không?";
+            }
+        };
+
+        // Gán sự kiện cho các nút
+        document.getElementById("boc-so").addEventListener("click", bocSo);
+        document.getElementById("lich-su").addEventListener("click", capNhatLichSu);
+        document.getElementById("kiem-tra").addEventListener("click", kiemTraSo);
+        document.getElementById("choi-lai").addEventListener("click", choiLai);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 2.1
+
+        let arr1 = [1, 2, 3, 4, 5];
+        let arr2 = [6, 7, 8, 9, 71];
+
+        let arr = [...arr1.slice(0, 1), ...arr2, ...arr1.slice(1)];
+        console.log(arr); // [1, 6, 7, 8, 9, 10, 2, 3, 4, 5]
+
+
+        // 2.2
+        let evenNumbers = arr.filter(num => num % 2 === 0 && (num < 20 || num > 70));
+        console.log(evenNumbers); // [8, 10]
+        function isPrime(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        let primeNumbers = arr.filter(num => isPrime(num) && num >= 30 && num <= 80);
+        console.log(primeNumbers); // [31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79]
+
+        // 2.3
+
+        function isPrime(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        let primeNumberss = arr.filter(num => isPrime(num) && num >= 30 && num <= 80);
+        console.log(primeNumberss); // [31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79]
+
+        //  2.4
+        let numbers = [8, 15, 25, 30, 40, 55, 70, 80, 90];
+        let oddNumbers = numbers.filter(num => num % 2 !== 0).sort((a, b) => b - a);
+        console.log(oddNumbers); // [55, 25, 15]
+    </script>
+</body>
+
+</html>

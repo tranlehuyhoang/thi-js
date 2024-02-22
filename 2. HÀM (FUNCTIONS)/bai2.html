@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 2.1. Viết hàm tìm số lớn nhất trong mảng, in ra màn hình số lớn nhất:
+
+
+        const findMaxNumber = (arr) => {
+            const maxNumber = Math.max(...arr);
+            console.log("Số lớn nhất trong mảng là: ", maxNumber);
+        };
+
+        // Sử dụng hàm findMaxNumber với mảng nhập từ người dùng
+        const array1 = [1, 5, 3, 8, 2, 9, 4, 7, 6, 10];
+        findMaxNumber(array1);
+        // 2.2. Viết hàm đảo ngược thứ tự các phần tử, in ra màn hình mảng đảo ngược:
+
+
+        const reverseArray = (arr) => {
+            const reversedArray = arr.reverse();
+            console.log("Mảng đảo ngược là: ", reversedArray);
+        };
+
+        // Sử dụng hàm reverseArray với mảng nhập từ người dùng
+        const array2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        reverseArray(array2);
+        // 2.3. Cho người dùng nhập vào 1 số bất kỳ, viết hàm kiểm tra xem số đó có nằm trong mảng hay không:
+
+
+        const checkNumberInArray = (arr, number) => {
+            const isInArray = arr.includes(number);
+            if (isInArray) {
+                console.log("Số", number, "được tìm thấy trong mảng.");
+            } else {
+                console.log("Số", number, "không tồn tại trong mảng.");
+            }
+        };
+
+        // Sử dụng hàm checkNumberInArray với mảng nhập từ người dùng và số nhập từ người dùng
+        const array3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const number = 7;
+        checkNumberInArray(array3, number);
+        // 2.4. Viết hàm xóa một phần tử khỏi mảng, in ra màn hình mảng mới:
+
+
+        const removeElementFromArray = (arr, element) => {
+            const newArray = arr.filter((item) => item !== element);
+            console.log("Mảng mới sau khi xóa phần tử", element, "là:", newArray);
+        };
+
+        // Sử dụng hàm removeElementFromArray với mảng nhập từ người dùng và phần tử nhập từ người dùng
+        const array4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const element = 5;
+        removeElementFromArray(array4, element);
+        // 2.5. Viết hàm sắp xếp phần tử số lẻ theo thứ tự giảm dần:
+
+
+        const sortOddNumbersDescending = (arr) => {
+            const oddNumbers = arr.filter((num) => num % 2 !== 0);
+            const sortedOddNumbers = oddNumbers.sort((a, b) => b - a);
+            console.log("Các phần tử số lẻ theo thứ tự giảm dần là:", sortedOddNumbers);
+        };
+
+        // Sử dụng hàm sortOddNumbersDescending với mảng nhập từ người dùng
+        const array5 = [1, 4, 3, 8, 2, 9, 6, 7, 5, 10];
+        sortOddNumbersDescending(array5);
+    </script>
+</body>
+
+</html>
